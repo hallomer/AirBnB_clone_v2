@@ -8,6 +8,7 @@ from datetime import datetime
 
 Base = declarative_base()
 
+
 class BaseModel:
     """The base class for all storage objects"""
     id = Column(String(60), primary_key=True, nullable=False)
@@ -32,7 +33,8 @@ class BaseModel:
 
     def __str__(self):
         """Print/str representation of the BaseModel"""
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(
+            self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
         """Updates updated_at with current time"""

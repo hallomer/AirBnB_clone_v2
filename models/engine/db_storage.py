@@ -17,6 +17,7 @@ from models.amenity import Amenity
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+
 class DBStorage:
     """Database storage engine"""
     __engine = None
@@ -72,5 +73,6 @@ class DBStorage:
     def reload(self):
         """Create all tables and current database session"""
         Base.metadata.create_all(self.__engine)
-        Session = scoped_session(sessionmaker(bind=self.__engine, expire_on_commit=False))
+        Session = scoped_session(sessionmaker(
+            bind=self.__engine, expire_on_commit=False))
         self.__session = Session()

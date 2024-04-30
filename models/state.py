@@ -5,11 +5,13 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 import models
 
+
 class State(BaseModel, Base):
     """Defines a user's state"""
     __tablename__ = "states"
     name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="state", cascade="all, delete-orphan")
+    cities = relationship("City", backref="state",
+                          cascade="all, delete-orphan")
 
     @property
     def cities(self):

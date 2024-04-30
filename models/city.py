@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 
+
 class City(BaseModel, Base):
     """Defines a city from which listings will be made"""
     __tablename__ = "cities"
