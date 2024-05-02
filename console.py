@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from datetime import datetime
 
 
 class HBNBCommand(cmd.Cmd):
@@ -19,16 +20,16 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        'State': State, 'City': City, 'Amenity': Amenity,
+        'Review': Review
+    }
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
-             'number_rooms': int, 'number_bathrooms': int,
-             'max_guest': int, 'price_by_night': int,
-             'latitude': float, 'longitude': float
-            }
+        'number_rooms': int, 'number_bathrooms': int,
+        'max_guest': int, 'price_by_night': int,
+        'latitude': float, 'longitude': float
+    }
 
     def preloop(self):
         """Prints if isatty is false"""
@@ -114,39 +115,28 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """Create an object of any class with optional parameters"""
-        args = args.split()
+        """ Create an object of any class"""
         if not args:
             print("** class name missing **")
             return
-        elif args[0] not in HBNBCommand.classes:
+        arg_list = args.split(" ")
+
+        if arg_list[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        params = {}
+        for param in arg_list[1:]:
+            key_value = param.split('=')
+            key_value[1] = eval(key_value[1])
+            if type(key_value[1]) is str:
+                key_value[1] = key_value[1].replace(
+                    "_", " ").replace('"', '\\"')
+            params[key_value[0]] = key_value[1]
 
-        new_instance = HBNBCommand.classes[args[0]]()
-        for arg in args[1:]:
-            if "=" not in arg:
-                continue
-            key, value = arg.split("=", 1)
-            value = value.replace("_", " ")
-            if value.startswith('"') and value.endswith('"'):
-                value = value[1:-1]
-                value = value.replace('_', ' ')
-                value = value.replace(r'\"', '"')
-            elif "." in value:
-                try:
-                    value = float(value)
-                except ValueError:
-                    continue
-            else:
-                try:
-                    value = int(value)
-                except ValueError:
-                    continue
+        # Creating the instance with parameters
 
-            setattr(new_instance, key, value)
-        storage.new(new_instance)
-        storage.save()
+        new_instance = HBNBCommand.classes[arg_list[0]](**params)
+        new_instance.save()
         print(new_instance.id)
 
     def help_create(self):
@@ -223,19 +213,16 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
         print_list = []
-
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            objects = storage.all(HBNBCommand.classes[args])
+            for k, v in storage.all(HBNBCommand.classes[args]).items():
+                print_list.append(str(v))
         else:
-            objects = storage.all()
-
-        for obj in objects.values():
-            print_list.append(str(obj))
-
+            for k, v in storage.all().items():
+                print_list.append(str(v))
         print(print_list)
 
     def help_all(self):
