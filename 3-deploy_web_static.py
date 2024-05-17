@@ -47,8 +47,12 @@ def do_deploy(archive_path):
 
 def deploy():
     """Performs a full deployment."""
+    global archive_path
     archive_path = do_pack()
     if archive_path is None:
         return False
 
     return do_deploy(archive_path)
+
+if __name__ == "__main__":
+    deploy()
