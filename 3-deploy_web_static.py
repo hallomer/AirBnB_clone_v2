@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """Creates and distributes an archive to your web servers,
 using the function deploy."""
 from fabric.api import env, local, put, run
