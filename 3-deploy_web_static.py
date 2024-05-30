@@ -1,15 +1,12 @@
 #!/usr/bin/python3
-"""Creates and distributes an archive to your web servers,
-using the function deploy."""
+"""Creates and distributes an archive to your web servers, using the function deploy."""
 from fabric.api import env, local, put, run
 from datetime import datetime
 import os
 
-
 env.hosts = ['100.25.197.112', '34.224.4.126']
 env.user = 'ubuntu'
 env.key_filename = '~/.ssh/id_rsa'
-
 
 def do_pack():
     """Compresses the contents of web_static folder"""
@@ -20,7 +17,6 @@ def do_pack():
     if result.failed:
         return None
     return "versions/{}".format(file_name)
-
 
 def do_deploy(archive_path):
     """Deploys the web static files to the web servers."""
@@ -45,8 +41,8 @@ def do_deploy(archive_path):
         print('New version deployed!')
         return True
     except Exception as excep:
+        print(f"Deployment failed: {excep}")
         return False
-
 
 def deploy():
     """Performs a full deployment."""
@@ -56,6 +52,9 @@ def deploy():
 
     return do_deploy(archive_path)
 
-
 if __name__ == "__main__":
-    deploy()
+    successful = deploy()
+    if successful:
+        exit(0)
+    else:
+        exit(1)
