@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """A simple Flask web application with multiple routes."""
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -34,6 +34,12 @@ def python_text(text='is cool'):
 def number(n):
     """Route handler for the /number/<n> URL."""
     return f"{n} is a number"
+
+
+@app.route('/number_template/<int:n>', strict_slashes=False)
+def number_template(n):
+    """Route handler for the /number_template/<n> URL."""
+    return render_template('5-number.html', n=n)
 
 
 if __name__ == '__main__':
