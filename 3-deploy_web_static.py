@@ -9,6 +9,7 @@ env.hosts = ['100.25.197.112', '34.224.4.126']
 env.user = 'ubuntu'
 env.key_filename = '~/.ssh/id_rsa'
 
+
 def do_pack():
     """Compresses the contents of web_static folder"""
     now = datetime.now()
@@ -18,6 +19,7 @@ def do_pack():
     if result.failed:
         return None
     return "versions/{}".format(file_name)
+
 
 def do_deploy(archive_path):
     """Deploys the web static files to the web servers."""
@@ -42,7 +44,8 @@ def do_deploy(archive_path):
         return True
     except Exception as excep:
         return False
-    
+
+
 def deploy():
     """Performs a full deployment."""
     archive_path = do_pack()
