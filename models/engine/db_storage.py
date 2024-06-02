@@ -30,7 +30,7 @@ class DBStorage:
         env = os.getenv("HBNB_ENV")
 
         self.__engine = create_engine(
-            'mysql+mysqldb://{}:{}@{}/{}'.format(user, pwd, host, db),
+            f'mysql+mysqldb://{user}:{pwd}@{host}/{db}',
             pool_pre_ping=True
         )
 
@@ -39,6 +39,17 @@ class DBStorage:
 
     def all(self, cls=None):
         """ Query all objects from the database """
+        """if cls:
+            query_result = self.__session.query(cls).all()
+        else:
+            query_result = []
+            for cls in [State, City, User, Place, Review, Amenity]:
+                query_result.extend(self.__session.query(cls).all())
+        objects = {}
+        for obj in query_result:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            objects[key] = obj
+        return objects"""
         dic = {}
         if cls:
             if type(cls) is str:
