@@ -84,6 +84,8 @@ section.filters .popover {
 	display: none;
 	position: relative;
 	z-index: 10;
+	max-height: 300px;
+    overflow-y: scroll;
 }
 section.filters .popover h2 {
 	font-size: 16px;
