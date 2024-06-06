@@ -20,8 +20,11 @@ def state_by_id(id):
     states = storage.all("State").values()
     for s in states:
         if s.id == id:
-            return render_template("9-states.html", state=state)
-    return render_template("9-states.html")
+            state = s
+            break
+    if state:
+        return render_template("9-states.html", state=state)
+    return render_template("9-states.html", state=None)
 
 
 @app.teardown_appcontext
