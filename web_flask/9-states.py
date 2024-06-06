@@ -22,9 +22,9 @@ def state_by_id(id):
         if s.id == id:
             state = s
             break
-    if state:
-        return render_template("9-states.html", state=state)
-    return render_template("9-states.html", state=None)
+    if state is None:
+        return render_template("9-states.html", state=None)
+    return render_template("9-states.html", state=state)
 
 
 @app.teardown_appcontext
