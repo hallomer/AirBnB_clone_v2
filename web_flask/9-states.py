@@ -10,7 +10,7 @@ app = Flask(__name__)
 def states():
     """Route handler for /states URL."""
     states = storage.all("State").values()
-    return render_template("10-states.html", states=states)
+    return render_template("9-states.html", states=states)
 
 
 @app.route('/states/<id>', strict_slashes=False)
