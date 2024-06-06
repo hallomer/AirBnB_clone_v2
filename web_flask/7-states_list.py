@@ -2,7 +2,7 @@
 """A Flask web application that lists all State objects."""
 from flask import Flask, render_template
 from models import storage
-from models.state import State
+
 
 app = Flask(__name__)
 
@@ -10,9 +10,8 @@ app = Flask(__name__)
 @app.route('/states_list', strict_slashes=False)
 def states_list():
     """Route handler for /states_list URL."""
-    states = storage.all(State).values()
-    states = sorted(states, key=lambda state: state.name)
-    return render_template('7-states_list.html', states=states)
+    states = storage.all("State")
+    return render_template("7-states_list.html", states=states)
 
 
 @app.teardown_appcontext
